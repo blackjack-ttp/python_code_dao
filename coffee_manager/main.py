@@ -1,41 +1,34 @@
-from menu import ThucDon, ThucDonMon
-from coffee_maker import MayPhaCaPhe
-from money_machine import MayTien
+from menu import Menu, MenuItem
+from coffee_maker import CoffeeMaker
+from money_machine import MoneyMachine
 
+# List of drinks
+espresso = MenuItem("espresso", 50, 0, 18, 1.5)
+latte = MenuItem("latte", 200, 150, 24, 2.5)
+cappuccino = MenuItem("cappuccino", 250, 100, 24, 3.0)
 
-def main():
-    # Danh sách đồ uống
-    espresso = ThucDonMon("espresso", 50, 0, 18, 1.5)
-    latte = ThucDonMon("latte", 200, 150, 24, 2.5)
-    cappuccino = ThucDonMon("cappuccino", 250, 100, 24, 3.0)
+# For ordering drinks and checking if drink is available
+menu = Menu()
 
-    # Tạo menu
-    menu = ThucDon()
+# Printing report of all resources, checking if resources are sufficient, making coffee
+coffee_maker = CoffeeMaker()
 
-    # Tạo máy pha cà phê
-    coffee_maker = MayPhaCaPhe()
+# Printing report and taking payment
+money_machine = MoneyMachine()
 
-    # Tạo máy quản lý tiền
-    money_machine = MayTien()
-
-    on = True
-    while on:
-        choice = input(
-            f"Bạn muốn gì? Chọn giữa espresso, latte hoặc cappuccino: ")
-        if choice == 'off':
-            print("Chúc bạn một ngày tốt lành!")
-            on = False
-        elif choice == 'report':
-            coffee_maker.bao_cao()
-            money_machine.bao_cao()
-        else:
-            coffee_choice = menu.tim_mon(choice)
-            if coffee_choice is not None:  # Kiểm tra xem đồ uống có trong menu không
-                if coffee_maker.du_nguyen_lieu(coffee_choice) and money_machine.thuc_hien_thanh_toan(coffee_choice.cost):
-                    coffee_maker.pha_ca_phe(coffee_choice)
-            else:
-                print("Xin lỗi, đồ uống bạn yêu cầu không có sẵn.")
-
-
-if __name__ == "__main__":
-    main()
+on = True
+while on:
+    choice = input(
+        f"What would you like? Choose between espresso, latte or cappuccino: ")
+    if choice == 'off':
+        print("Have a good one!")
+        on = False
+    elif choice == 'report':
+        coffee_maker.report()
+        money_machine.report()
+    elif choice == 'exit':
+        break
+    else:
+        coffee_choice = menu.find_drink(choice)
+        if coffee_maker.is_resource_sufficient(espresso) and money_machine.make_payment(espresso.cost):
+            coffee_maker.make_coffee(coffee_choice)

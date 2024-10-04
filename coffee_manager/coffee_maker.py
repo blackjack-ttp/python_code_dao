@@ -1,30 +1,30 @@
-class MayPhaCaPhe:
-    """Mô hình máy pha cà phê"""
+class CoffeeMaker:
+    """Models the machine that makes the coffee"""
 
     def __init__(self):
-        self.nguyen_lieu = {
-            "nuoc": 300,
-            "sua": 200,
-            "ca_phe": 100,
+        self.resources = {
+            "water": 300,
+            "milk": 200,
+            "coffee": 100,
         }
 
-    def bao_cao(self):
-        """In báo cáo về tất cả các nguyên liệu."""
-        print(f"Nước: {self.nguyen_lieu['nuoc']}ml")
-        print(f"Sữa: {self.nguyen_lieu['sua']}ml")
-        print(f"Cà phê: {self.nguyen_lieu['ca_phe']}g")
+    def report(self):
+        """Prints a report of all resources."""
+        print(f"Water: {self.resources['water']}ml")
+        print(f"Milk: {self.resources['milk']}ml")
+        print(f"Coffee: {self.resources['coffee']}g")
 
-    def du_nguyen_lieu(self, mon_uong):
-        """Trả về True nếu có thể pha chế món uống, False nếu nguyên liệu không đủ."""
-        co_the_pha = True
-        for item in mon_uong.nguyen_lieu:
-            if mon_uong.nguyen_lieu[item] > self.nguyen_lieu[item]:
-                print(f"Xin lỗi, không đủ {item}.")
-                co_the_pha = False
-        return co_the_pha
+    def is_resource_sufficient(self, drink):
+        """Returns True when order can be made, False if ingredients are insufficient."""
+        can_make = True
+        for item in drink.ingredients:
+            if drink.ingredients[item] > self.resources[item]:
+                print(f"Sorry there is not enough {item}.")
+                can_make = False
+        return can_make
 
-    def pha_ca_phe(self, don_hang):
-        """Trừ nguyên liệu cần thiết từ kho nguyên liệu."""
-        for item in don_hang.nguyen_lieu:
-            self.nguyen_lieu[item] -= don_hang.nguyen_lieu[item]
-        print(f"Đây là ly {don_hang.ten} ☕️ của bạn. Thưởng thức nhé!")
+    def make_coffee(self, order):
+        """Deducts the required ingredients from the resources."""
+        for item in order.ingredients:
+            self.resources[item] -= order.ingredients[item]
+        print(f"Here is your {order.name} ☕️. Enjoy!")

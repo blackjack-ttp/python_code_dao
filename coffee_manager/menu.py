@@ -1,36 +1,36 @@
-class ThucDonMon:
-    """Mô hình mỗi món trong thực đơn."""
+class MenuItem:
+    """Models each Menu Item."""
 
-    def __init__(self, ten, nuoc, sua, ca_phe, gia):
-        self.ten = ten
-        self.gia = gia
-        self.nguyen_lieu = {
-            "nuoc": nuoc,
-            "sua": sua,
-            "ca_phe": ca_phe
+    def __init__(self, name, water, milk, coffee, cost):
+        self.name = name
+        self.cost = cost
+        self.ingredients = {
+            "water": water,
+            "milk": milk,
+            "coffee": coffee
         }
 
 
-class ThucDon:
-    """Mô hình thực đơn với các món uống."""
+class Menu:
+    """Models the Menu with drinks."""
 
     def __init__(self):
-        self.thuc_don = [
-            ThucDonMon(ten="latte", nuoc=200, sua=150, ca_phe=24, gia=2.5),
-            ThucDonMon(ten="espresso", nuoc=50, sua=0, ca_phe=18, gia=1.5),
-            ThucDonMon(ten="cappuccino", nuoc=250, sua=50, ca_phe=24, gia=3),
+        self.menu = [
+            MenuItem(name="latte", water=200, milk=150, coffee=24, cost=2.5),
+            MenuItem(name="espresso", water=50, milk=0, coffee=18, cost=1.5),
+            MenuItem(name="cappuccino", water=250, milk=50, coffee=24, cost=3),
         ]
 
-    def lay_mon(self):
-        """Trả về tên của tất cả các món có trong thực đơn"""
-        lua_chon = ""
-        for mon in self.thuc_don:
-            lua_chon += f"{mon.ten}/"
-        return lua_chon
+    def get_items(self):
+        """Returns all the names of the available menu items"""
+        options = ""
+        for item in self.menu:
+            options += f"{item.name}/"
+        return options
 
-    def tim_mon(self, ten_mon):
-        """Tìm món uống trong thực đơn theo tên. Trả về món nếu có, nếu không trả về None."""
-        for mon in self.thuc_don:
-            if mon.ten == ten_mon:
-                return mon
-        print("Xin lỗi, món này không có sẵn.")
+    def find_drink(self, order_name):
+        """Searches the menu for a particular drink by name. Returns that item if it exists, otherwise returns None"""
+        for item in self.menu:
+            if item.name == order_name:
+                return item
+        print("Sorry that item is not available.")
